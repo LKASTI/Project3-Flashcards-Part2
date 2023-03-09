@@ -1,0 +1,43 @@
+@import url('https://fonts.googleapis.com/css2?family=Arvo&family=Inter&family=Nunito+Sans&family=Roboto&display=swap');
+
+:root{
+  margin:unset;
+  background-image: url("./assets/SM-background.png");
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+}
+
+.app{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  font-family: 'Roboto', sans-serif;
+}
+
+h1{
+  font-size: 40px;
+  color: white;
+  background-color: rgba(0, 0, 0, 0.11);
+  padding: 15px;
+  padding-left: 20px;
+  padding-right: 20px;
+  border-radius: 30px;
+}
+
+p{
+  font-size: 20px;
+  color: white;
+}
+
+.description{
+  background-color: rgba(0, 0, 0, 0.11);
+  padding: 15px;
+  padding-left: 30px;
+  padding-right: 30px;
+  border-radius: 30px;
+}
