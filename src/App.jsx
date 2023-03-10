@@ -15,6 +15,9 @@ function App() {
     {source: "(Spider-man Far From Home Movie)", q: "What does Aunt May call Peter's spider-sense?", a: "Peter Tingle"},
   ];
 
+
+
+
   const numCards = dictionary.length;
 
   return (
@@ -24,7 +27,7 @@ function App() {
           <p>Test your knowledge to find out if you're a real web-head fan!<br/>The title in the {"( )"} indicates the movie/media of the trivia.<br/>Lets get started True Believers!</p>
           <p>Total number of cards: {numCards}</p>
         </div>
-        <Flashcard dictionary={dictionary}/>
+        <Flashcard dictionary={dictionary} />
     </div>
   )
 }

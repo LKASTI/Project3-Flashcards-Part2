@@ -1,27 +1,45 @@
 import react from "react"
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import "./flashcard.css"
 const Flashcard = (props) => {
     const [question, setQuestion] = useState(props.dictionary[0].q)
     const [answer, setAnswer] = useState(props.dictionary[0].a)
+    const [cardIndex, setCardIndex] = useState(0)
     const [mediaSource, setMediaSource] = useState(props.dictionary[0].source)
     const [isFlipped, setIsFlipped] = useState(false)
+    
+    useEffect(() => {
+        setQuestion(props.dictionary[cardIndex].q)
+        setAnswer(props.dictionary[cardIndex].a)
+        setMediaSource(props.dictionary[cardIndex].source)
+    }, [cardIndex])
 
-    const handleChangeCard = () => {
-        //generate a random integer between 0 and numCards-1
-        //if the current card matches the card at that index then repeat
-        //set question and answer state to the key and value at that index
-        let index = 0;
-        while(props.dictionary[index].q === question)
-        {
-            index = Math.floor(Math.random() * props.dictionary.length);
-        }
+    const handleShuffle = () => {
+        props.dictionary.sort(() => Math.random() - 0.5)
         setIsFlipped(false)
         setTimeout(() => {
-            setQuestion(props.dictionary[index].q)
-            setAnswer(props.dictionary[index].a)
-            setMediaSource(props.dictionary[index].source)}
-            , 150)
+                setQuestion(props.dictionary[0].q)
+                setAnswer(props.dictionary[0].a)
+                setMediaSource(props.dictionary[0].source)
+                setCardIndex(0)}
+                , 150)
+        console.log(props.dictionary)
+    }
+
+    const handleNextCard = () => {
+        if(cardIndex < props.dictionary.length-1)
+        {
+            setIsFlipped(false)
+            setTimeout(() => {setCardIndex(cardIndex+1)} , 150)
+        }
+    }
+
+    const handlePrevCard = () => {
+        if(cardIndex > 0)
+        {
+            setIsFlipped(false)
+            setTimeout(() => {setCardIndex(cardIndex-1)} , 150)
+        }
     }
 
     const flipCard = () => {
@@ -33,6 +51,7 @@ const Flashcard = (props) => {
             <div className="scene">
                 <div className={`card ${isFlipped? "is-flipped" : ""}`}>
                     <div className="flashcard front" onClick={flipCard}>
+                        <p className="flashcard-index">{cardIndex}</p>
                         <p className="flashcard-source">{mediaSource}</p>
                         <p className="flashcard-info">{question}</p>
                     </div>
@@ -41,7 +60,11 @@ const Flashcard = (props) => {
                     </div>
                 </div>
             </div>
-            <button onClick={handleChangeCard}>↺</button>
+            <div className='button-container'>
+                <button onClick={handleShuffle}>Shuffle</button>
+                <button onClick={handlePrevCard}>←</button>
+                <button onClick={handleNextCard}>→</button>
+            </div>
         </>
     );
 }
