@@ -61,12 +61,21 @@ const Flashcard = (props) => {
     const handleGuessSubmit = (e) => {
         e.preventDefault()
         if(guess === "" || guess === " ")
+        {
             setIsWrongGuess(true)
+            setIsCorrectGuess(false)
+        }
         else{
             if(answer.includes(guess))
+            {
                 setIsCorrectGuess(true)
+                setIsWrongGuess(false)
+            }
             else
+            {
                 setIsWrongGuess(true)
+                setIsCorrectGuess(false)
+            }
         }
         
     }
