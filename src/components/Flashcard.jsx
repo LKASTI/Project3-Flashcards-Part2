@@ -1,22 +1,30 @@
 import react from "react"
 import { useState, useEffect } from 'react'
 import "./flashcard.css"
+
 const Flashcard = (props) => {
     const [question, setQuestion] = useState(props.dictionary[0].q)
     const [answer, setAnswer] = useState(props.dictionary[0].a)
     const [cardIndex, setCardIndex] = useState(0)
     const [mediaSource, setMediaSource] = useState(props.dictionary[0].source)
     const [isFlipped, setIsFlipped] = useState(false)
+    const [guess, setGuess] = useState("")
+    const [isCorrectGuess, setIsCorrectGuess] = useState(false)
+    const [isWrongGuess, setIsWrongGuess] = useState(false)
     
     useEffect(() => {
         setQuestion(props.dictionary[cardIndex].q)
         setAnswer(props.dictionary[cardIndex].a)
         setMediaSource(props.dictionary[cardIndex].source)
+        setIsCorrectGuess(false)
+        setIsWrongGuess(false)
     }, [cardIndex])
 
     const handleShuffle = () => {
         props.dictionary.sort(() => Math.random() - 0.5)
         setIsFlipped(false)
+        setIsCorrectGuess(false)
+        setIsWrongGuess(false)
         setTimeout(() => {
                 setQuestion(props.dictionary[0].q)
                 setAnswer(props.dictionary[0].a)
@@ -46,6 +54,23 @@ const Flashcard = (props) => {
         setIsFlipped(!isFlipped)
     }
 
+    const handleGuessChange = (e) => {
+        setGuess(e.target.value)
+    }
+
+    const handleGuessSubmit = (e) => {
+        e.preventDefault()
+        if(guess === "" || guess === " ")
+            setIsWrongGuess(true)
+        else{
+            if(answer.includes(guess))
+                setIsCorrectGuess(true)
+            else
+                setIsWrongGuess(true)
+        }
+        
+    }
+
     return(
         <>
             <div className="scene">
@@ -60,6 +85,18 @@ const Flashcard = (props) => {
                     </div>
                 </div>
             </div>
+            <form className="guess-container" onSubmit={handleGuessSubmit}>
+                <label className="description ">
+                    Guess the answer here:
+                    <input 
+                        className={`${isCorrectGuess? "green-border" : (isWrongGuess? "red-border" : "grey-border")}`} 
+                        type="text" 
+                        value={guess} 
+                        onChange={handleGuessChange}
+                    />
+                </label>
+                <button type="submit">Submit Guess</button>
+            </form>
             <div className='button-container'>
                 <button onClick={handleShuffle}>Shuffle</button>
                 <button onClick={handlePrevCard}>←</button>
